@@ -1,0 +1,266 @@
+$black-color: RGB(3, 4, 3);
+$primary-color: RGB(33, 33, 33);
+$white-color: RGB(254, 255, 255);
+$light-color: RGB(235, 236, 234);
+$secondary-color: RGB(44, 44, 44);
+
+$box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+$transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
+
+.homepage {
+  width: 100%;
+  position: relative;
+
+  .hero {
+    width: 100%;
+    position: relative;
+    padding: 6rem 0 1rem 0;
+    background: $primary-color;
+
+    .content {
+      width: 100%;
+      height: 85vh;
+      overflow: hidden;
+      position: relative;
+      border-radius: 0.4rem;
+      box-shadow: 0 0 1px 0 $black-color;
+      background: $secondary-color;
+
+      .hero-slider {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        color: $white-color;
+
+        .slide {
+          display: flex;
+          overflow: hidden;
+          position: relative;
+          align-items: center;
+          width: 100%;
+          height: 85vh;
+          background: $black-color;
+          transition: $transition;
+          justify-content: space-between;
+
+          img {
+            width: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+          }
+
+          .details {
+            position: absolute;
+            top: 50%;
+            left: 3rem;
+            width: 100%;
+            max-width: 500px;
+            transform: translateY(-50%);
+            z-index: 99;
+
+            .tag {
+              top: -6rem;
+              font-size: 1rem;
+              font-weight: 400;
+              position: absolute;
+              border-radius: 6rem;
+              color: $light-color;
+              padding: 0.6rem 0.8rem;
+              box-shadow: 0 0 1px 0;
+              backdrop-filter: blur(10px);
+              background: rgba(44, 44, 44, 0.6);
+            }
+
+            h2 {
+              text-shadow: 0 1px 0 $primary-color;
+              color: $white-color;
+              font-size: 1.4rem;
+              font-weight: 800;
+              margin: 10px 0;
+            }
+
+            p {
+              font-size: 1rem;
+              line-height: 1.5;
+              color: $light-color;
+            }
+
+            .rating {
+              margin: 10px 0;
+              font-size: 20px;
+              color: gold;
+            }
+
+            .actions {
+              display: flex;
+              gap: 10px;
+
+              a {
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                transition: $transition;
+
+                span {
+                  gap: 0.2rem;
+                  display: flex;
+                  align-items: center;
+
+                  svg {
+                    font-size: 1.2rem;
+                  }
+                }
+
+                &.watch {
+                  background: $white-color;
+                  color: $black-color;
+                  border-radius: 0.6rem;
+                  transition: $transition;
+
+                  &:hover {
+                    color: $white-color;
+                    background: $secondary-color;
+                  }
+                }
+
+                &.download {
+                  background: $black-color;
+                  color: $white-color;
+                  border-radius: 0.6rem;
+                  transition: $transition;
+
+                  &:hover {
+                    color: $white-color;
+                    background: $secondary-color;
+                  }
+                }
+
+                &.more {
+                  background: $black-color;
+                  color: $white-color;
+                  border-radius: 1rem;
+                  transition: $transition;
+
+                  &:hover {
+                    color: $white-color;
+                    background: $secondary-color;
+                  }
+                }
+              }
+            }
+          }
+
+          .progress-bar {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            right: 1rem;
+            height: 0.2rem;
+            background: $secondary-color;
+            border-radius: 1rem;
+            overflow: hidden;
+
+            .progress {
+              height: 100%;
+              border-radius: 1rem;
+              background: $light-color;
+              transition: width 0.1s linear; // Smooth transition for progress updates
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .continue {
+    background-color: $primary-color;
+    color: $white-color;
+    padding: 2rem;
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .slider-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .slider {
+        display: flex;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        gap: 1rem;
+
+        .card {
+          background-color: $secondary-color;
+          box-shadow: $box-shadow;
+          border-radius: 0.5rem;
+          flex: 0 0 25%; // Four cards visible
+          max-width: 25%;
+          transition: transform $transition;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+
+          .card-thumbnail {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem 0.5rem 0 0;
+          }
+
+          .card-content {
+            padding: 1rem;
+            text-align: center;
+
+            h3 {
+              font-size: 1.2rem;
+              margin-bottom: 0.5rem;
+            }
+
+            p {
+              font-size: 0.9rem;
+              color: $light-color;
+            }
+          }
+        }
+      }
+
+      .slider-btn {
+        background-color: $secondary-color;
+        color: $white-color;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+
+        &.left {
+          left: -1rem;
+        }
+
+        &.right {
+          right: -1rem;
+        }
+
+        &:hover {
+          background-color: $primary-color;
+        }
+      }
+    }
+  }
+}
