@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaPlay } from "react-icons/fa6";
 import cover1 from "/image/mvz/01.jpg";
 import cover2 from "/image/mvz/02.jpg";
 import cover3 from "/image/mvz/03.jpg";
@@ -145,30 +145,52 @@ function Continue() {
   return (
     <div className="continue">
       <div className="container">
-        <h2>Continue Watching</h2>
-        <div className="slider-container">
-          <button className="slider-btn left" onClick={() => scroll("left")}>
-            <FaChevronLeft />
-          </button>
-          <div className="slider" ref={scrollRef}>
-            {extendedMovies.map((movie, index) => (
-              <div key={index} className="card">
-                <img
-                  src={movie.thumbnail}
-                  alt={movie.title}
-                  className="card-thumbnail"
-                />
-                <div className="card-content">
-                  <h3>{movie.title}</h3>
-                  <p>{movie.category}</p>
-                  <p>Rating: {movie.rating}</p>
+        <div className="content">
+          <h2>Continue Watching</h2>
+          <div className="slider-container">
+            <button className="slider-btn left" onClick={() => scroll("left")}>
+              <FaChevronLeft />
+            </button>
+            <div className="slider" ref={scrollRef}>
+              {extendedMovies.map((movie, index) => (
+                <div key={index} className="card">
+                  <img
+                    src={movie.thumbnail}
+                    alt={movie.title}
+                    className="card-thumbnail"
+                  />
+                  <div className="card-content">
+                    <div>
+                      <h3>{movie.title}</h3>
+                      <p>⭐ {movie.rating}</p>
+                    </div>
+                    <div>
+                      <div className="row">
+                        <p className="category">{movie.category}</p>
+                        <p className="tag">{movie.tag}</p>
+                      </div>
+                      <div className="row btn">
+                        <a href={movie.view} className="watch">
+                          <span>
+                            <FaPlay /> Watch Now
+                          </span>
+                        </a>
+                        <a className="more">
+                          <span>•••</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <button
+              className="slider-btn right"
+              onClick={() => scroll("right")}
+            >
+              <FaChevronRight />
+            </button>
           </div>
-          <button className="slider-btn right" onClick={() => scroll("right")}>
-            <FaChevronRight />
-          </button>
         </div>
       </div>
     </div>

@@ -14,10 +14,10 @@ function Homepage() {
       <div className="homepage">
         
         <Hero />
-        <Continue />
+        {/* <Continue />
         <Latest />
         <Serie />
-        <Movie />
+        <Movie /> */}
         <Film />
       </div>
     </>
