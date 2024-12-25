@@ -66,6 +66,12 @@ textarea {
   margin: 0 auto;
 }
 
+.repo {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .shorten {
   display: -webkit-box;
   text-overflow: ellipsis;
@@ -75,7 +81,7 @@ textarea {
   -webkit-line-clamp: 3;
 }
 
-.line4{
+.line4 {
   display: -webkit-box;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;

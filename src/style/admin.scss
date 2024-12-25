@@ -1,0 +1,153 @@
+$black-color: RGB(3, 4, 3);
+$primary-color: RGB(33, 33, 33);
+$white-color: RGB(254, 255, 255);
+$light-color: RGB(235, 236, 234);
+$secondary-color: RGB(44, 44, 44);
+
+$box-shadow: 0 3px 6px rgb(0 0 0 / 16%);
+$transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  color: $light-color;
+  backdrop-filter: blur(10px);
+  background: rgba(33, 33, 33, 0.6);
+  border-right: 1px solid RGB(3, 4, 3);
+  transition: width 0.3s ease;
+
+  &.collapsed {
+    width: 80px;
+
+    ul li a span {
+      display: none;
+    }
+  }
+
+  .sidebar-header {
+    display: flex;
+    padding: 2rem;
+    justify-content: start;
+    background-color: $primary-color;
+
+    .collapse-btn {
+      background: none;
+      border: none;
+      color: #ecf0f1;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  }
+
+  nav {
+    flex-grow: 1;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        a {
+          display: flex;
+          align-items: center;
+          padding: 15px 20px;
+          color: #ecf0f1;
+          text-decoration: none;
+          transition: background 0.3s ease;
+
+          &:hover {
+            background-color: #34495e;
+          }
+
+          svg {
+            margin-right: 10px;
+            font-size: 1.2rem;
+          }
+
+          span {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .sidebar-footer {
+    padding: 10px;
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: none;
+      border: none;
+      color: #ecf0f1;
+      cursor: pointer;
+      padding: 15px 20px;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background-color: #34495e;
+      }
+
+      svg {
+        margin-right: 10px;
+      }
+
+      span {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+
+  .sidebar {
+    transition: width 0.3s ease;
+  }
+
+  .main-content {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    background: $primary-color;
+    overflow-y: auto;
+
+    &.expanded {
+      margin-left: 80px;
+    }
+
+    &:not(.expanded) {
+      margin-left: 250px; // Full-width sidebar margin
+    }
+  }
+}
+
+.account {
+  width: 100%;
+  position: relative;
+
+  .account-info,
+  .account-stats {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    background: $secondary-color;
+  }
+
+  .account-info h2,
+  .account-stats h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+}
