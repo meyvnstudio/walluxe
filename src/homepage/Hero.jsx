@@ -17,8 +17,8 @@ const movies = [
     rating: 8,
     tag: ["Drama"],
     mark: "🔥 Now Popular",
-    download: "#",
-    watch: "#",
+    download: "https://ww1.goojara.to/meQG57",
+    watch: "https://ww1.goojara.to/meQG57",
   },
   {
     thumbnail: "/image/cover/02.jpg",
@@ -28,8 +28,8 @@ const movies = [
     rating: 4,
     tag: ["Drama"],
     mark: "🔥 Now Popular",
-    download: "#",
-    watch: "#",
+    download: "https://ww1.goojara.to/mrAGbA",
+    watch: "https://ww1.goojara.to/mrAGbA",
   },
   {
     thumbnail: "/image/cover/03.jpg",
@@ -39,8 +39,8 @@ const movies = [
     rating: 3.5,
     tag: ["Action", "Adventure"],
     mark: "🔥 Now Popular",
-    download: "#",
-    watch: "#",
+    download: "https://ww1.goojara.to/mqGZZz",
+    watch: "https://ww1.goojara.to/mqGZZz",
   },
   {
     thumbnail: "/image/cover/04.jpg",
@@ -50,8 +50,8 @@ const movies = [
     rating: 4.8,
     tag: ["Comedy"],
     mark: "🔥 Now Popular",
-    download: "#",
-    watch: "#",
+    download: "https://ww1.goojara.to/mB4lbd",
+    watch: "https://ww1.goojara.to/mB4lbd",
   },
 ];
 
@@ -130,12 +130,20 @@ const Hero = () => {
                     </p>
                     <div className="rating">{renderStars(movie.rating)}</div>
                     <div className="actions">
-                      <a href={movie.watch} className="watch">
+                      <a
+                        href={movie.watch}
+                        target="_blank"
+                        className="watch-btn"
+                      >
                         <span>
                           <FaPlay /> Watch Now
                         </span>
                       </a>
-                      <a href={movie.download} className="download">
+                      <a
+                        href={movie.download}
+                        target="_blank"
+                        className="download"
+                      >
                         <span>
                           <MdOutlineFileDownload /> Download
                         </span>

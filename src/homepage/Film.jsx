@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-
+// Updated Filime.jsx
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { LuPlus } from "react-icons/lu";
 import { CiBoxList, CiGrid42, CiSearch } from "react-icons/ci";
 import {
@@ -8,128 +9,56 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-
-import cover1 from "/image/mvz/01.jpg";
-import cover2 from "/image/mvz/02.jpg";
-import cover3 from "/image/mvz/03.jpg";
-import cover4 from "/image/mvz/04.jpg";
-import cover5 from "/image/mvz/05.jpg";
-import cover6 from "/image/mvz/06.jpg";
-import cover7 from "/image/mvz/07.jpg";
-import cover8 from "/image/mvz/08.jpg";
-import cover9 from "/image/mvz/09.jpg";
-
-const movies = [
-  {
-    title: "Tomorrow 1",
-    year: 2024,
-    category: "Movies",
-    thumbnail: cover1,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Churchill War",
-    year: 2020,
-    category: "Movies",
-    thumbnail: cover2,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Black Doves",
-    year: 2023,
-    category: "Movies",
-    thumbnail: cover3,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Ultimatum",
-    year: 2020,
-    category: "Movies",
-    thumbnail: cover4,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "The children's train",
-    year: 2022,
-    category: "Children",
-    thumbnail: cover5,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Mary",
-    year: 2024,
-    category: "Movies",
-    thumbnail: cover6,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Polo",
-    year: 2024,
-    category: "Animation",
-    thumbnail: cover7,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Jamie Foxx",
-    year: 2019,
-    category: "Movies",
-    thumbnail: cover8,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-  {
-    title: "Makayla's Voice",
-    year: 2022,
-    category: "Series",
-    thumbnail: cover9,
-    watch: "#",
-    download: "#",
-    trailer: "#",
-    rating: 8.2,
-  },
-];
+import ContentLoader from "react-content-loader"; // React Content Loader
 
 function Filime() {
+  const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
   const [searchBy, setSearchBy] = useState("title");
   const [viewMode, setViewMode] = useState("grid");
   const [activeCategory, setActiveCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const [loading, setLoading] = useState(true);
 
-  // Filter movies by search, category, and pagination
+  const itemsPerPage = 16;
+
+  const navigate = useNavigate();
+
+  // Fetch movies from API
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          "https://streamhgapi.com/api/file/list?key=22704a4xzy4jmeqowy65u"
+        );
+        const data = await response.json();
+        if (data.status === 200) {
+          setMovies(data.result.files);
+        } else {
+          console.error("Error fetching movies:", data.msg);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
+  // Filter movies by search and category
   const filteredMovies = movies.filter((movie) => {
     if (activeCategory !== "All" && movie.category !== activeCategory)
       return false;
     if (searchBy === "title")
       return movie.title.toLowerCase().includes(search.toLowerCase());
-    if (searchBy === "year") return movie.year.toString().includes(search);
+    if (searchBy === "year") return movie.uploaded.includes(search);
     return true;
   });
 
+  // Paginate movies
   const paginatedMovies = filteredMovies.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -198,25 +127,52 @@ function Filime() {
         </div>
 
         <div className={`movies ${viewMode}`}>
-          {paginatedMovies.length > 0 ? (
+          {loading ? (
+            Array.from({ length: itemsPerPage }).map((_, index) => (
+              <div className="card" key={index}>
+                <ContentLoader
+                  viewBox="0 0 300 450"
+                  height={450}
+                  width={300}
+                  backgroundColor="RGB(3, 4, 3)"
+                  foregroundColor="RGB(44, 44, 44)"
+                >
+                  <rect x="0" y="0" rx="5" ry="5" width="300" height="400" />
+                  <rect x="0" y="410" rx="5" ry="5" width="200" height="15" />
+                  <rect x="0" y="435" rx="5" ry="5" width="150" height="15" />
+                </ContentLoader>
+              </div>
+            ))
+          ) : paginatedMovies.length > 0 ? (
             paginatedMovies.map((movie, index) => (
               <div className="card" key={index}>
                 <img src={movie.thumbnail} alt={movie.title} />
                 <div className="details">
                   <div className="rating">
-                    <p>⭐ {movie.rating}</p>
+                    <p>⭐ {movie.views || "N/A"}</p>
                   </div>
 
-                  <div className="dis">
+                  <div>
                     <div className="dat">
                       <h3>{movie.title}</h3>
-                      <p>{movie.year}</p>
+                      <p>{new Date(movie.uploaded).getFullYear()}</p>
                     </div>
-                    <div className="action">
-                      <a href={movie.watch}>Watch Now</a>
-                      <button>
-                        <LuPlus />
-                      </button>
+                    <div className="dis">
+                      <div className="action">
+                        <button
+                          onClick={() =>
+                            navigate(`/watch/${movie.file_code}`, {
+                              state: { movie },
+                            })
+                          }
+                        >
+                          Watch Now
+                        </button>
+
+                        <button>
+                          <LuPlus />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

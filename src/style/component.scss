@@ -320,7 +320,7 @@ $transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
         }
 
         .right {
-            width: calc(100% - 300px);
+          width: calc(100% - 300px);
           position: relative;
 
           .card {
@@ -416,6 +416,73 @@ $transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
           }
         }
       }
+    }
+  }
+}
+
+// TOAST
+.toast {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  z-index: 99999;
+  transform: translateX(-50%);
+  background: $primary-color;
+  color: $white-color;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  box-shadow: $box-shadow;
+  animation: fadeInOut 3s ease forwards;
+  transition: $transition;
+
+  &.hidden {
+    display: none;
+  }
+
+  .toast-message {
+    font-weight: 500;
+    color: $light-color;
+  }
+}
+
+// Animations
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  10%,
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+//MESSAGE
+.message {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  display: flex;
+  overflow: hidden;
+  border-radius: 50%;
+
+  .icon {
+    display: flex;
+    font-size: 3rem;
+    color: $secondary-color;
+    transition: $transition;
+    background: $primary-color;
+
+    &:hover {
+      color: $primary-color;
+      background: $black-color;
     }
   }
 }

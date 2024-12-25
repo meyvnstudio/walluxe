@@ -65,7 +65,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Homepage />} />
-            <Route path="watch" element={<Watchpage />} />
+            <Route path="/watch/:file_code" element={<Watchpage />} />
           </Route>
           <Route path="/auth">
             <Route path="login" element={<AuthLogin />} />

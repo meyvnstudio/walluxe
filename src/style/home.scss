@@ -114,7 +114,7 @@ $transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
                   }
                 }
 
-                &.watch {
+                &.watch-btn {
                   background: $white-color;
                   color: $black-color;
                   border-radius: 0.6rem;
@@ -559,6 +559,7 @@ $transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
                 background: rgba(44, 44, 44, 0.6);
               }
             }
+            
 
             .action {
               gap: 1rem;
@@ -670,7 +671,7 @@ $transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
               transition: $transition;
             }
 
-            .dis p {
+            .dat p {
               transition: $transition;
               color: $light-color;
               font-size: 0.8rem;

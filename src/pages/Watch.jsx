@@ -1,241 +1,257 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 import { GiBleedingEye } from "react-icons/gi";
 import { TbDownload, TbShare } from "react-icons/tb";
-import { LuThumbsDown, LuThumbsUp } from "react-icons/lu";
+import ContentLoader from "react-content-loader"; // React Content Loader
 
 import "./../style/watch.scss";
-import giti from "/image/abasobanuzi/giti.jpg";
-import saga from "/image/abasobanuzi/saga.jpeg";
-import rocky from "/image/abasobanuzi/rocky.jpg";
-import didier from "/image/abasobanuzi/didier.jpg";
-import gaheza from "/image/abasobanuzi/gaheza.jpeg";
-import sankara from "/image/abasobanuzi/sankara.jpg";
-
-import cover1 from "/image/mvz/01.jpg";
-import cover2 from "/image/mvz/02.jpg";
-import cover3 from "/image/mvz/03.jpg";
-import cover4 from "/image/mvz/04.jpg";
-import cover5 from "/image/mvz/05.jpg";
-import cover6 from "/image/mvz/06.jpg";
-import cover7 from "/image/mvz/07.jpg";
-import cover8 from "/image/mvz/08.jpg";
-import cover9 from "/image/mvz/09.jpg";
-
-const movie = [
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    download: "https://iplayerhls.com/f/ws8muzqi7xcr_n",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt dolorum debitis sit nulla saepe molestias, iusto odio, dignissimos autem dolor qui laudantium maxime recusandae doloremque sapiente earum maiores, excepturi eligendi?               Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt impedit id, sed at ut, repudiandae omnis, magnam rerum quibusdam assumenda voluptatum! Repellendus cumque distinctio quasi, molestias perspiciatis neque reiciendis aut. Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores suscipit quasi natus necessitatibus labore fugit hic ducimus error similique, cum vel eaque consectetur expedita quisquam illo doloribus assumenda veniam id!",
-  },
-];
-
-const transcriptor = [
-  {
-    img: giti,
-    title: "Junior Giti",
-    film: 13,
-  },
-  {
-    img: saga,
-    title: "Saga Mwiza",
-    film: 22,
-  },
-  {
-    img: rocky,
-    title: "Rocky Kimomo",
-    film: 36,
-  },
-  {
-    img: didier,
-    title: "Didier",
-    film: 6,
-  },
-  {
-    img: sankara,
-    title: "Sankara Da Primier",
-    film: 13,
-  },
-  {
-    img: gaheza,
-    title: "Gaheza Simba",
-    film: 23,
-  },
-];
-
-const movies = [
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover1,
-    trend: true,
-    length: "59m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover2,
-    trend: true,
-    length: "1h02m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover3,
-    trend: false,
-    length: "2h00m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover4,
-    trend: true,
-    length: "1h42m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover5,
-    trend: false,
-    length: "52m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover6,
-    trend: true,
-    length: "1h11m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover8,
-    trend: false,
-    length: "1h03m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover9,
-    trend: false,
-    length: "1h12m",
-    date: "Jan 01, 2025",
-  },
-  {
-    title: "Jumong EP 1",
-    link: "https://iplayerhls.com/e/ycaohn0wypsn",
-    thumbnail: cover7,
-    trend: true,
-    length: "1h02m",
-    date: "Jan 01, 2025",
-  },
-];
+import Toast from "../components/Toast";
 
 const Watchpage = () => {
-  const [views, setViews] = useState(0);
-  const startTime = new Date("2024-12-26T00:00:00").getTime();
-  const viewsPerSecond = 1200 / 86400;
+  const location = useLocation();
+  const { file_code } = useParams();
+  const movie = location.state?.movie;
 
+  const [mvz, setMvz] = useState([]);
+  const [latestMvz, setLatestMvz] = useState([]);
+  const [popularMvz, setPopularMvz] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+
+  const [videoInfo, setVideoInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [movieList, setMovieList] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [commentData, setCommentData] = useState({ name: "", message: "" });
+
+  const navigate = useNavigate();
+
+  // Fetch video info based on file_code
   useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = new Date().getTime();
-      const elapsedTime = Math.max((currentTime - startTime) / 1000, 0);
-      const totalViews = Math.floor(elapsedTime * viewsPerSecond);
-      setViews(totalViews);
-    }, 1000);
+    const fetchVideoInfo = async () => {
+      try {
+        const response = await fetch(
+          `https://streamhgapi.com/api/file/info?key=22704a4xzy4jmeqowy65u&file_code=${file_code}`
+        );
+        const data = await response.json();
+        if (data.status === 200 && data.result.length > 0) {
+          setVideoInfo(data.result[0]);
+        } else {
+          console.error("Error fetching video info:", data.msg);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearInterval(interval);
+    fetchVideoInfo();
+  }, [file_code]);
+
+  // Fetch all movies for latest and trending
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(
+          "https://streamhgapi.com/api/file/list?key=22704a4xzy4jmeqowy65u"
+        );
+        const data = await response.json();
+        if (data.status === 200) {
+          setMvz(data.result.files); // Store all movies
+        } else {
+          console.error("Error fetching movies:", data.msg);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    };
+
+    fetchMovies();
   }, []);
 
-  const formatViews = (views) => {
-    if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`;
-    if (views >= 1_000) return `${(views / 1_000).toFixed(1)}K`;
-    return views.toString();
+  useEffect(() => {
+    if (mvz.length > 0) {
+      // Display latest 8 movies by sorting by creation date
+      const latest = [...mvz]
+        .sort((a, b) => new Date(b.file_created) - new Date(a.file_created))
+        .slice(0, 8);
+      setLatestMvz(latest);
+
+      // Display top 5 popular movies by sorting by views
+      const popular = [...mvz]
+        .sort((a, b) => b.file_views - a.file_views)
+        .slice(0, 5);
+      setPopularMvz(popular);
+    }
+  }, [mvz]);
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    setComments([...comments, commentData]);
+    setCommentData({ name: "", message: "" });
   };
 
-  const latestMovies = movies
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 8);
+  if (!file_code) {
+    return <p>Movie data not available.</p>;
+  }
+
+  const embedLink = `https://iplayerhls.com/e/${videoInfo?.file_code}`;
+  const downloadLink = `https://iplayerhls.com/f/${videoInfo?.file_code}_n`;
+
+  const handleDownload = () => {
+    window.open(downloadLink, "_blank");
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(embedLink);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 6000);
+  };
 
   return (
     <div className="watch">
       <div className="container">
         <div className="content">
           <div className="main">
-            {movie.map((movie, index) => (
-              <div key={index} className="video">
-                <div
-                  className="frame"
-                  style={{ position: "relative", overflow: "hidden" }}
+            {loading ? (
+              <div className="loader">
+                {/* Skeleton Loader for Video */}
+                <ContentLoader
+                  viewBox="0 0 800 420"
+                  height={420}
+                  width="100%"
+                  backgroundColor="RGB(44, 44, 44)"
+                  foregroundColor="RGB(3, 4,3)"
                 >
+                  <rect x="0" y="0" rx="5" ry="5" width="800" height="420" />
+                </ContentLoader>
+                {/* Skeleton Loader for Title */}
+                <ContentLoader
+                  viewBox="0 0 800 60"
+                  height={60}
+                  width="100%"
+                  backgroundColor="#f3f3f3"
+                  foregroundColor="#ecebeb"
+                >
+                  <rect x="0" y="10" rx="5" ry="5" width="300" height="20" />
+                  <rect x="0" y="40" rx="5" ry="5" width="200" height="15" />
+                </ContentLoader>
+                {/* Skeleton Loader for Description */}
+                <ContentLoader
+                  viewBox="0 0 800 150"
+                  height={150}
+                  width="100%"
+                  backgroundColor="#f3f3f3"
+                  foregroundColor="#ecebeb"
+                >
+                  <rect x="0" y="0" rx="5" ry="5" width="800" height="10" />
+                  <rect x="0" y="20" rx="5" ry="5" width="600" height="10" />
+                  <rect x="0" y="40" rx="5" ry="5" width="700" height="10" />
+                  <rect x="0" y="60" rx="5" ry="5" width="500" height="10" />
+                </ContentLoader>
+              </div>
+            ) : (
+              <div className="video">
+                <div className="frame">
                   <iframe
-                    src={movie.link}
+                    src={embedLink}
                     frameBorder="0"
                     allowFullScreen
-                    title={movie.title}
+                    title={movie?.title || videoInfo?.file_title}
                     style={{
                       width: "100%",
-                      height: "360px",
+                      height: "420px",
                     }}
                   ></iframe>
                 </div>
-                <h2>{movie.title}</h2>
+                <h2>{videoInfo?.file_title || movie?.title}</h2>
                 <div className="actions">
-                  <button
-                    onClick={() => window.open(movie.download, "_blank")}
-                    className="btn"
-                  >
+                  <button className="btn" onClick={handleDownload}>
                     <TbDownload /> Download
                   </button>
-                  <button
-                    className="btn"
-                    onClick={() => navigator.clipboard.writeText(movie.link)}
-                  >
+                  <button className="btn" onClick={handleCopy}>
                     <TbShare /> Share
                   </button>
+                  <Toast message="Link copied!" show={showToast} />
                   <button>
-                    <GiBleedingEye /> {formatViews(views)}
+                    <GiBleedingEye /> {videoInfo?.file_views || "0"} Views
                   </button>
                 </div>
                 <div className="descr">
-                  <p className="line4">{movie.description}</p>
+                  <p style={{ textTransform: "uppercase" }}>
+                    {videoInfo?.file_title}
+                  </p>
+                  <i
+                    style={{
+                      fontSize: ".8rem",
+                      fontWeight: "100",
+                      padding: ".6rem",
+                      display: "block",
+                      opacity: ".6",
+                    }}
+                  >
+                    {videoInfo?.tags || "No tags available"}
+                  </i>
+                  <p>
+                    <strong>Duration:</strong>{" "}
+                    {videoInfo?.file_length
+                      ? `${Math.floor(
+                          videoInfo.file_length / 3600
+                        )}h ${Math.floor(
+                          (videoInfo.file_length % 3600) / 60
+                        )}min ${Math.floor(
+                          (videoInfo.file_length % 3600) % 60
+                        )}sec`
+                      : "N/A"}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: ".9rem",
+                      opacity: ".6",
+                      marginTop: ".3rem",
+                    }}
+                  >
+                    • {videoInfo?.file_created || "Unknown"}
+                  </p>
                 </div>
               </div>
-            ))}
+            )}
 
             <div className="comment">
-              <h2>Leave a comment</h2>
-              <form>
+              <h2>Leave a Comment</h2>
+              <form onSubmit={handleCommentSubmit}>
                 <input
                   type="text"
                   placeholder="Name"
                   required
+                  value={commentData.name}
+                  onChange={(e) =>
+                    setCommentData({ ...commentData, name: e.target.value })
+                  }
                   style={{ margin: "10px 0" }}
                 />
                 <textarea
                   placeholder="Message"
                   required
+                  value={commentData.message}
+                  onChange={(e) =>
+                    setCommentData({ ...commentData, message: e.target.value })
+                  }
                   style={{ width: "100%", height: "100px" }}
                 ></textarea>
                 <button type="submit">Submit</button>
               </form>
-            </div>
-
-            <div className="latest">
-              <h2>Latest Movies</h2>
-              <div className="div">
-                {latestMovies.map((movie, index) => (
-                  <div className="movie">
-                    <img src={movie.thumbnail} alt={movie.title} />
-                    <p>{movie.length}</p>
+              <div className="comments-section">
+                <h3>Comments</h3>
+                {comments.map((comment, index) => (
+                  <div key={index} className="comment-item">
+                    <h4>{comment.name}</h4>
+                    <p>{comment.message}</p>
                   </div>
                 ))}
               </div>
@@ -243,31 +259,28 @@ const Watchpage = () => {
           </div>
 
           <div className="sidebar">
-            <div className="trending">
-              <h2>🔥 Trending</h2>
-              {movies
-                .filter((mvz) => mvz.trend)
-                .map((mvz, index) => (
-                  <div key={index} className="trending-item">
-                    <img
-                      src={mvz.thumbnail}
-                      alt={mvz.title}
-                      style={{ width: "100%", borderRadius: "10px" }}
-                    />
-                    <div className="details">
-                      <h3>{mvz.title}</h3>
-                      <div className="row">
-                        <div className="date">{mvz.date}</div>
-                        <div className="length">{mvz.length}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
             <div className="cta">
               <h2>Don't miss out!</h2>
               <button>Subscribe Now</button>
             </div>
+            <Link to={"https://meyvn.vercel.app/"} className="advert">
+              <div className="frame">
+                <iframe
+                  src="https://meyvn.vercel.app/"
+                  frameBorder="0"
+                  allowFullScreen
+                  title="meyvn agency"
+                  style={{
+                    width: "100%",
+                    height: "620px",
+                  }}
+                ></iframe>
+              </div>
+              <div className="name">
+                <h3>Meyvn Agency</h3>
+                <p>Your software development partner</p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

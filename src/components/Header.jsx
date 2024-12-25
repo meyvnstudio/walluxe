@@ -17,7 +17,7 @@ function Header() {
       <div className="header">
         <div className="container">
           <div className="content">
-            <Link className="logo">
+            <Link to={"/"} className="logo">
               <img src={logo} alt="Walluxe" />
             </Link>
             <div className="search">
