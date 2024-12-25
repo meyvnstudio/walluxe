@@ -118,7 +118,7 @@ function Filime() {
   const [viewMode, setViewMode] = useState("grid");
   const [activeCategory, setActiveCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 12;
 
   // Filter movies by search, category, and pagination
   const filteredMovies = movies.filter((movie) => {

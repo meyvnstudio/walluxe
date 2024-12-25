@@ -1,0 +1,319 @@
+$black-color: RGB(3, 4, 3);
+$primary-color: RGB(33, 33, 33);
+$white-color: RGB(254, 255, 255);
+$light-color: RGB(235, 236, 234);
+$secondary-color: RGB(44, 44, 44);
+
+$box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+$transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
+
+.watch {
+  width: 100%;
+  position: relative;
+  padding: 6rem 0 2rem 0;
+  background: $primary-color;
+
+  .content {
+    gap: 2rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem 0 0 0;
+    position: relative;
+
+    .main {
+      flex: 70%;
+      position: relative;
+
+      .video {
+        width: 100%;
+        position: relative;
+
+        .frame {
+          width: 100%;
+          display: flex;
+          overflow: hidden;
+          position: relative;
+          align-items: center;
+          border-radius: 0.6rem;
+          background: $black-color;
+
+          iframe {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+          }
+        }
+
+        h2 {
+          margin-top: 1rem;
+          font-size: 1.35rem;
+          color: $white-color;
+          font-weight: 600;
+        }
+
+        .descr {
+          padding: 1rem;
+          margin: 1rem 0;
+          color: $light-color;
+          border-radius: 0.4rem;
+          box-shadow: inset $box-shadow;
+          background: $secondary-color;
+        }
+
+        .actions {
+          padding: 1rem 0;
+          gap: 1rem;
+          display: flex;
+          align-items: center;
+
+          button {
+            gap: 0.3rem;
+            display: flex;
+            font-size: 1rem;
+            padding: 0.4rem;
+            cursor: none;
+            align-items: center;
+            color: $light-color;
+            border-radius: 0.4rem;
+            transition: $transition;
+            box-shadow: 0 0 1px 0 $light-color;
+
+            &.btn {
+              &:hover {
+                cursor: default;
+                background: $secondary-color;
+              }
+            }
+
+            svg {
+              display: flex;
+            }
+          }
+        }
+      }
+
+      .comment {
+        margin-top: 3rem;
+        width: 100%;
+        padding: 2rem;
+        position: relative;
+        background: $secondary-color;
+
+        h2 {
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+
+        form {
+          width: 100%;
+          position: relative;
+
+          input,
+          textarea {
+            width: 100%;
+            font-size: 1rem;
+            padding: 0.8rem 1rem;
+            transition: $transition;
+            box-shadow: 0 0 1px 0 $light-color;
+            color: $light-color;
+            border-radius: 0.2rem;
+
+            &:hover {
+              background: $primary-color;
+            }
+
+            &:focus,
+            &:focus-visible {
+              color: $white-color;
+              box-shadow: 0 0 1px 1px;
+            }
+          }
+
+          textarea {
+            resize: none;
+            overflow: hidden;
+          }
+
+          button {
+            margin: 1rem 0;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 0.3rem;
+            background: $light-color;
+            transition: $transition;
+
+            &:hover {
+              color: $white-color;
+              box-shadow: 0 0 1px 0 $light-color;
+              background: $primary-color;
+            }
+          }
+        }
+      }
+
+      .latest {
+        width: 100%;
+        padding: 3rem 0;
+        position: relative;
+
+        h2 {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: $white-color;
+          margin-bottom: 0.6rem;
+        }
+
+        .div {
+          gap: 1rem;
+          display: grid;
+          align-items: stretch;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+          .movie {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            max-width: 250px;
+            max-height: 200px;
+            position: relative;
+            border-radius: 1rem;
+            background: $black-color url(./../../public/image/brand/icon.svg)
+              no-repeat;
+            transition: $transition;
+            background-size: cover;
+            background-position: center;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: $transition;
+            }
+
+            p {
+              position: absolute;
+              top: 1.2rem;
+              left: 0;
+              font-size: 0.8rem;
+              font-weight: 600;
+              user-select: none;
+              padding: 0.3rem 0.6rem 0.3rem 1rem;
+              backdrop-filter: blur(10px);
+              background: rgba(33, 33, 33, 0.6);
+              border-radius: 0 1rem 1rem 0;
+            }
+
+            &:hover {
+              img {
+                transform: scale(1.1);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .sidebar {
+      flex: calc(30% - 2rem);
+      position: relative;
+
+      .trending {
+        width: 100%;
+        position: relative;
+
+        h2 {
+          font-size: 1.6rem;
+          position: relative;
+        }
+
+        .trending-item {
+          width: 100%;
+          overflow: hidden;
+          max-width: 300px;
+          margin-top: 1rem;
+          position: relative;
+          border-radius: 0.6rem;
+          box-shadow: 0 0 1px 0 $black-color;
+          background: $secondary-color;
+
+          img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+          }
+
+          .details {
+            padding: 0.6rem 1.4rem;
+            position: relative;
+
+            h3 {
+              font-size: 1.2rem;
+              font-weight: 600;
+              color: $white-color;
+            }
+
+            .row {
+              opacity: 0.6;
+              display: flex;
+              padding: 0.3rem 0;
+              position: relative;
+              align-items: center;
+              justify-content: space-between;
+
+              .length {
+                font-size: 0.7rem;
+                color: $white-color;
+              }
+
+              .date {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+      }
+
+      .cta {
+        width: 100%;
+        max-width: 300px;
+        margin: 2rem 0;
+        padding: 3rem 2rem;
+        color: $primary-color;
+        transition: $transition;
+        background: $light-color;
+
+        h2 {
+          color: $primary-color;
+          font-weight: 700;
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+        }
+
+        button {
+          font-size: 1rem;
+          font-weight: 500;
+          color: $light-color;
+          border-radius: 0.4rem;
+          padding: 0.9rem 1.2rem;
+          transition: $transition;
+          background: $secondary-color;
+
+          &:hover {
+            color: $white-color;
+            background: $primary-color;
+          }
+        }
+
+        &:hover {
+          background: $white-color;
+
+          button {
+            border-radius: 0.2rem;
+          }
+        }
+      }
+    }
+  }
+}

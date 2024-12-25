@@ -74,3 +74,12 @@ textarea {
   line-clamp: 3;
   -webkit-line-clamp: 3;
 }
+
+.line4{
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  line-clamp: 4;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+}
