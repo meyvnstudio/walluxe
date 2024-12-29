@@ -314,6 +314,55 @@ $transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
           }
         }
       }
+
+      .advert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $primary-color;
+  color: $white-color;
+  box-shadow: $box-shadow;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: $transition;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .frame {
+    width: 100%;
+    position: relative;
+    padding-top: 56.25%; // Aspect ratio for 16:9
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.8); // Adjust this value to control zoom level
+      transform-origin: top left;
+    }
+  }
+
+  .name {
+    text-align: center;
+    padding: 16px;
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $light-color;
+    }
+  }
+}
+      
     }
   }
 }
