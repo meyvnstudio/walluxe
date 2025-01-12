@@ -337,14 +337,11 @@ const Watchpage = () => {
                       title="meyvn agency"
                       style={{
                         width: "100%",
-                        height: "620px",
+                        height: "720px",
                       }}
                     ></iframe>
                   </div>
-                  <div className="name">
-                    <h3>Meyvn Agency</h3>
-                    <p>Your software development partner</p>
-                  </div>
+                  
                 </Link>
               </div>
             </div>
